@@ -30,17 +30,16 @@
 
 ---
 
-## 1) Introduction to CI/CD and GitHub Actions
+## Introduction to CI/CD and GitHub Actions
 
-### What Problem Are We Actually Solving?
+#### What Problem Are We Actually Solving?
 
 Imagine a team of 10 developers all working on the same codebase. Developer A finishes a feature and pushes it. Developer B pushes another change an hour later. How do you know both changes still work together? How do you know they didn't accidentally break something that was already working? In the early days of software, you found out the hard way — usually during a late-night deployment when something exploded in production.
 
 **CI/CD is the systematic answer to this problem.** It automates the process of verifying code quality and delivering software, so that problems are caught early (when they're cheap to fix) rather than late (when they're expensive and embarrassing).
 
 ---
-
-### Continuous Integration (CI)
+#### Continuous Integration (CI)
 
 **What it is conceptually:**
 
@@ -63,7 +62,7 @@ In a microservices architecture, dozens of small services talk to each other ove
 
 ---
 
-### Continuous Delivery vs. Continuous Deployment (CD)
+#### Continuous Delivery vs. Continuous Deployment (CD)
 
 Both terms describe what happens **after** CI passes. They differ in how much human involvement is required before code reaches production.
 
@@ -75,14 +74,14 @@ This is an ideal choice for teams that must meet compliance standards, obtain bu
 
 A simple mental model:
 
-|Term|What it means|
-|---|---|
-|**Continuous Delivery**|Always _ready_ to release — a human pulls the trigger|
-|**Continuous Deployment**|Always _automatically_ released — the pipeline pulls the trigger|
+| Term                      | What it means                                                    |
+| ------------------------- | ---------------------------------------------------------------- |
+| **Continuous Delivery**   | Always _ready_ to release — a human pulls the trigger            |
+| **Continuous Deployment** | Always _automatically_ released — the pipeline pulls the trigger |
 
 ---
 
-### Where GitHub Actions Fits
+#### Where GitHub Actions Fits
 
 GitHub Actions is **not** just a CI/CD tool. It is a general-purpose event-driven automation platform. Anything that can be described as `"when X happens, do Y"` is a candidate for a GitHub Actions workflow. Examples beyond CI/CD:
 
@@ -96,7 +95,7 @@ This is why GitHub Actions is worth learning deeply — it becomes the automatio
 
 ---
 
-## 2) What GitHub Offers Beyond Code Hosting
+## What GitHub Offers Beyond Code Hosting
 
 Understanding the full platform helps you understand how GitHub Actions fits in as one piece of a larger system:
 
@@ -109,9 +108,9 @@ Understanding the full platform helps you understand how GitHub Actions fits in 
 
 ---
 
-## 3) Workflows and Actions
+## Workflows and Actions
 
-### What Is a Workflow?
+#### What Is a Workflow?
 
 A workflow is a complete, self-contained automation script. Think of it like a recipe: it describes what ingredients are needed (triggers), who does the cooking (runners), and what steps to follow (jobs and steps).
 
@@ -125,8 +124,7 @@ Let's see **The key characteristics of a workflow:**
 - It can contain one or multiple jobs
 
 ---
-
-### What Is an Event (Trigger)?
+#### What Is an Event (Trigger)?
 
 An event is the thing that wakes up a workflow and tells it to start running. Without an event, a workflow just sits there as a YAML file doing nothing.
 
@@ -140,7 +138,7 @@ Events come in several flavors:
 The event also carries **context data** (called a payload) about what happened. For a push event, the payload contains information about what commits were pushed, who pushed them, and which branch was affected. Your workflow can read this data to make decisions.
 
 ---
-### What Is an Action?
+#### What Is an Action?
 
 An action (lowercase) is a reusable, self-contained unit of automation. Think of it as a pre-built function you can call in your workflow without having to write the underlying logic yourself.
 
@@ -155,8 +153,7 @@ Actions can be:
 Actions can be written in **JavaScript/TypeScript** (runs directly on the runner) or packaged as **Docker containers** (runs in an isolated environment with full control over the OS and dependencies).
 
 ---
-
-### What Is a Runner?
+#### What Is a Runner?
 
 A runner is the machine that actually executes your workflow jobs. When a workflow is triggered, GitHub (or your own infrastructure) provides a fresh, clean virtual machine, runs all the steps in your job, and then <span style ="color:red">discards the machine</span>.
 
@@ -168,9 +165,9 @@ A runner is the machine that actually executes your workflow jobs. When a workfl
 
 ---
 
-## 4) Workflow Components and Execution
+## Workflow Components and Execution
 
-### The Component Hierarchy
+#### The Component Hierarchy
 
 A GitHub Actions workflow has a clear hierarchy:
 
@@ -184,8 +181,7 @@ Workflow (the .yml file)
 Every level of this hierarchy has a specific purpose and its own rules.
 
 ---
-
-### Understanding the Parallel vs. Sequential Rule
+#### Understanding the Parallel vs. Sequential Rule
 
 This is one of the most important concepts to internalize early, because getting it wrong leads to confusing failures.
 
@@ -198,8 +194,7 @@ This is one of the most important concepts to internalize early, because getting
 **The `needs` keyword** is how you break the default parallelism between jobs. If `deploy` declares `needs: build`, then GitHub will wait for `build` to complete successfully before starting `deploy`.
 
 ---
-
-### The Code Checkout Rule
+#### The Code Checkout Rule
 
 He surprised many "Including me (*^_^*)": **when your job starts, the runner's workspace is completely empty.** There are no files from your repository. The runner is a fresh machine that knows nothing about your code.
 
@@ -208,8 +203,7 @@ This is intentional — it ensures a clean, reproducible environment for every r
 Forgetting this is one of the most common mistakes.
 
 ---
-
-### Component Summary Table
+#### Component Summary Table
 
 |Component|Description|Example|
 |---|---|---|
@@ -221,7 +215,7 @@ Forgetting this is one of the most common mistakes.
 
 ---
 
-## 5) Your First Workflow
+## Your First Workflow
 
 ### Reading a Workflow File for the First Time
 
@@ -240,7 +234,7 @@ Everything else is a detail that hangs off one of these three top-level keys.
 
 ---
 
-### The `runs-on` Key
+#### The `runs-on` Key
 
 Every job must declare `runs-on`, which tells GitHub which type of runner to provision. The most common values are:
 
@@ -252,7 +246,7 @@ You can also specify exact versions like `ubuntu-22.04` if you need predictable,
 
 ---
 
-### The `uses` vs. `run` Distinction
+#### The `uses` vs. `run` Distinction
 
 Every step does one of two things:
 
@@ -263,7 +257,7 @@ You cannot use both `run` and `uses` in the same step. They are mutually exclusi
 
 ---
 
-### First Workflow Example
+#### First Workflow Example
 
 > **Bug Fixed:** The original used `actions/checkout@v6.0.2`, which does not exist. The current stable major version is `v5` (as of the time of writing, check the official repository for the latest). Pinning to a major version tag like `@v5` is the standard practice.
 
@@ -296,7 +290,7 @@ jobs:
         run: ls -la
 ```
 
-### What Each Part Does
+#### What Each Part Does
 
 - `on: push: branches: [main]` → This workflow only activates on pushes to the `main` branch. Pushes to feature branches, for example, are ignored.
 - `runs-on: ubuntu-latest` → GitHub spins up a fresh Ubuntu VM for this job.
@@ -305,9 +299,9 @@ jobs:
 
 ---
 
-## 6) Pricing and Runners
+## Pricing and Runners
 
-### The Mental Model for Pricing
+#### The Mental Model for Pricing
 
 GitHub Actions charges you for **compute time**. Specifically, it counts the number of minutes your jobs run on GitHub-hosted runners, multiplied by a factor based on the OS. The factor exists because Windows and macOS VMs cost GitHub more to operate than Linux VMs, and those costs are passed on.
 
@@ -317,7 +311,7 @@ For **private repositories**, GitHub gives you a pool of free minutes each month
 
 ---
 
-### GitHub-Hosted Runner Costs
+#### GitHub-Hosted Runner Costs
 
 These machines come pre-configured with everything you need — no setup required.
 
@@ -332,8 +326,7 @@ Notice that Windows costs 2× Linux, and macOS costs more than 10× Linux. This 
 **Free tier for private repositories:** 2,000 minutes/month across all workflows and repositories in your account. These minutes are drawn from a shared pool, not per-repository.
 
 ---
-
-### Self-Hosted Runners
+#### Self-Hosted Runners
 
 A self-hosted runner is any machine you register with GitHub to run your workflow jobs. It could be a Raspberry Pi under your desk, a VM in your company's data center, or a powerful cloud instance.
 
@@ -349,16 +342,15 @@ A self-hosted runner is any machine you register with GitHub to run your workflo
 **The tradeoff:** You become responsible for maintaining the machine — OS updates, security patches, installed software, uptime. GitHub-hosted runners are maintained by GitHub; self-hosted runners are maintained by you.
 
 ---
+## GitHub Marketplace
 
-## 7) GitHub Marketplace
-
-### What the Marketplace Is
+#### What the Marketplace Is
 
 The GitHub Marketplace is a directory of pre-built actions that anyone can use in their workflows. As of the time of writing, there are over 18,000 actions covering virtually every common task in software development.
 
 Before writing any custom workflow logic, it's worth checking the Marketplace first. The action you need almost certainly already exists, is well-tested, and is maintained by someone with deep expertise in that specific domain.
 
-### How Actions Are Structured
+#### How Actions Are Structured
 
 Every action has a defined interface consisting of:
 
@@ -368,8 +360,7 @@ Every action has a defined interface consisting of:
 This input/output interface is what makes actions composable. One action can produce an output (say, a version number), and the next action can consume that output as an input.
 
 ---
-
-### Marketplace Example
+#### Marketplace Example
 
 ```yaml
 - name: Setup Node.js
@@ -384,8 +375,7 @@ This input/output interface is what makes actions composable. One action can pro
 ```
 
 ---
-
-### Understanding Action Version Pinning
+#### Understanding Action Version Pinning
 
 When you write `uses: actions/checkout@v5`, the `@v5` part is a Git ref — it points to a specific commit, branch, or tag in the action's repository. There are three common strategies:
 
@@ -399,17 +389,16 @@ When you write `uses: actions/checkout@v5`, the `@v5` part is a Git ref — it p
 
 ---
 
-## 8) YAML Basics for GitHub Actions
+## YAML Basics for GitHub Actions
 
-### Why YAML?
+#### Why YAML?
 
 YAML was designed to be human-readable. It uses indentation and plain text to represent structured data, which makes it easier to write and review than alternatives like XML or JSON. GitHub Actions chose YAML for workflow files because workflows need to be read and edited frequently by humans.
 
 **YAML is easy to learn, but some small rules about indentation, strings, and data types can cause unexpected errors. Understanding these rules early can save you a lot of time when debugging later.**
 
 ---
-
-### Core YAML Rules
+#### Core YAML Rules
 
 **Indentation is syntax, not style.** In most programming languages, indentation is optional formatting. In YAML, it defines the structure. A misplaced space can change the entire meaning of a document or cause a parse error.
 
@@ -440,8 +429,7 @@ run: npm test  # This is an inline comment
 ```
 
 ---
-
-### YAML Scalar Types
+#### YAML Scalar Types
 
 YAML automatically detects the type of unquoted values:
 
@@ -457,8 +445,7 @@ nothing:           # Null (empty value)
 This auto-detection is usually convenient, but it can cause problems when YAML guesses wrong — which brings us to the quoting rules.
 
 ---
-
-### Multi-Line Strings
+#### Multi-Line Strings
 
 YAML provides two operators for multi-line strings, and choosing the right one matters when your `run:` command spans multiple lines.
 
@@ -486,8 +473,7 @@ description: >
 This is useful for long strings that you want to break for readability in the YAML file but keep as a single line in the actual value.
 
 ---
-
-### YAML Data Types — Full Example
+#### YAML Data Types — Full Example
 
 ```yaml
 name: Example User
@@ -512,8 +498,7 @@ config:
 ```
 
 ---
-
-### Single Quotes `' '` vs. Double Quotes `" "`
+#### Single Quotes `' '` vs. Double Quotes `" "`
 
 This is one of the most important distinctions for writing correct YAML, and it comes up constantly in GitHub Actions files.
 
@@ -617,7 +602,6 @@ version: "1.10"   # String "1.10"
 This is especially important in GitHub Actions when passing values like environment names, version strings, or flags that look like booleans or numbers.
 
 ---
-
 #### Quick Reference: When to Use Which Quotes
 
 |Use `' '` single quotes when...|Use `" "` double quotes when...|
@@ -638,8 +622,7 @@ This is especially important in GitHub Actions when passing values like environm
 | Literal text, no surprises  | Less safe               |  Safer                 |
 
 ---
-
-### Regex in YAML — Senior Best Practice
+#### Regex in YAML — Senior Best Practice
 
 Regular expressions use backslashes heavily. In double quotes, every backslash must be escaped by doubling it. This makes regex patterns nearly unreadable in double quotes.
 
@@ -670,9 +653,9 @@ This guidance applies across all YAML-based tooling: GitHub Actions, Docker Comp
 
 ---
 
-## 9) Types of Workflow Triggers
+## Types of Workflow Triggers
 
-### The Three Trigger Categories
+#### The Three Trigger Categories
 
 Every GitHub Actions workflow starts with a trigger. There are three broad categories:
 
@@ -683,8 +666,7 @@ Every GitHub Actions workflow starts with a trigger. There are three broad categ
 **3. Manual triggers** — A human (or an external system) deliberately starts the workflow. Useful for deployments, one-off tasks, and processes that shouldn't run automatically.
 
 ---
-
-### Trigger Overview Table
+#### Trigger Overview Table
 
 |Trigger Type|Description|Example|
 |---|---|---|
@@ -693,8 +675,7 @@ Every GitHub Actions workflow starts with a trigger. There are three broad categ
 |**Manual**|User-initiated via UI, CLI, or API|`workflow_dispatch`, `repository_dispatch`|
 
 ---
-
-### Webhook Event Triggers
+#### Webhook Event Triggers
 
 Webhook triggers work because GitHub maintains a list of events that can occur in a repository. When an event occurs, GitHub sends an HTTP webhook (a POST request carrying the event payload) to all systems listening — including GitHub Actions.
 
@@ -718,7 +699,7 @@ Most events support filters so you don't trigger the workflow for every single o
 
 ---
 
-### Webhook Triggers — Full Example
+#### Webhook Triggers — Full Example
 
 This workflow triggers on pushes or pull requests to `main` or any `release/**` branch, but **only when files inside `src/` change**. This path filter is valuable — it prevents the CI pipeline from running when you update documentation, fix a typo in a README, or change a GitHub Actions workflow file itself.
 
@@ -754,7 +735,7 @@ jobs:
 
 ---
 
-### Working JavaScript Test Example
+#### Working JavaScript Test Example
 
 This is a minimal but complete Node.js project that demonstrates a real webhook trigger in action.
 
@@ -837,9 +818,9 @@ jobs:
 ```
 
 ---
-### Scheduled Triggers — Cron Syntax
+#### Scheduled Triggers — Cron Syntax
 
-#### What Is Cron?
+### What Is Cron?
 
 Cron is a time-based job scheduler.. It uses a compact five-field expression to describe when a job should run. GitHub Actions adopted the same syntax for its `schedule` trigger.
 
@@ -1055,9 +1036,9 @@ curl -X POST \
 
 ---
 
-## 10) Jobs and Steps in Detail
+## Jobs and Steps in Detail
 
-### Understanding Job Dependency Graphs
+#### Understanding Job Dependency Graphs
 
 When a workflow has multiple jobs, GitHub Actions builds an internal dependency graph based on the `needs:` declarations and uses it to determine the execution order.
 
@@ -1152,7 +1133,7 @@ jobs:
 
 ---
 
-### Running Steps Inside Docker Containers
+#### Running Steps Inside Docker Containers
 
 **Why run inside a container?**
 
@@ -1209,25 +1190,23 @@ jobs:
 
 ---
 
-## 11) Matrix Strategy
+## Matrix Strategy
 
-### The Problem Matrix Solves
+#### The Problem Matrix Solves
 
 Imagine you need to test your application on Ubuntu, Windows, and macOS, and across Node.js versions 16, 18, and 20. Without matrix strategy, you'd write 9 nearly-identical jobs — `test-ubuntu-16`, `test-ubuntu-18`, `test-ubuntu-20`, `test-windows-16`, and so on. That's 9 times the YAML to maintain. If you add a new Node.js version, you'd have to add 3 more jobs.
 
 Matrix strategy solves this by letting you define the variable dimensions (OS and Node version) and having GitHub automatically generate all the combinations and run them as parallel jobs.
 
 ---
-
-### How Matrix Works Internally
+#### How Matrix Works Internally
 
 When GitHub reads a workflow with a `strategy.matrix` definition, it expands the matrix into a set of jobs before execution begins. Each combination of matrix values becomes an independent job. These jobs can run in parallel (subject to the runner availability limits on your account).
 
 The matrix variables you define become available inside the job via `${{ matrix.variable_name }}`. They work exactly like regular variables at that point.
 
 ---
-
-### Why Matrix Is One of the Most Valuable Features
+#### Why Matrix Is One of the Most Valuable Features
 
 **Testing cross-platform compatibility:** If your application claims to work on Linux, Windows, and macOS, you need to actually test it on all three. A bug that only appears on Windows (like a case-sensitive file path) will slip through if you only run CI on Linux.
 
@@ -1236,8 +1215,7 @@ The matrix variables you define become available inside the job via `${{ matrix.
 **Time efficiency:** Matrix jobs run in parallel. 9 jobs that each take 5 minutes = 5 minutes total (not 45 minutes), assuming enough runners are available.
 
 ---
-
-### Matrix Examples
+#### Matrix Examples
 
 **Single dimension — multiple OS:**
 
@@ -1289,8 +1267,7 @@ GitHub generates:
 4 jobs from 2×2 matrix values.
 
 ---
-
-### Full Matrix Example with Options
+#### Full Matrix Example with Options
 
 ```yaml
 on:
@@ -1329,17 +1306,16 @@ jobs:
 
 ---
 
-## 12) Conditionals and Expressions
+## Conditionals and Expressions
 
-### Why Conditions Are Essential
+#### Why Conditions Are Essential
 
 A single workflow file often needs to behave differently based on context. The deploy step should only run on the main branch. The release notes step should only run when a version tag is pushed. A notification step should only run if the previous step failed. Heavy tests should be skipped for work-in-progress commits.
 
 Without conditional logic, you'd need a separate workflow file for each scenario. With `if:` and expressions, one workflow file can handle many scenarios intelligently.
 
 ---
-
-### Expression Syntax
+#### Expression Syntax
 
 Expressions in GitHub Actions are written inside `${{ }}`. Inside these delimiters, you have access to:
 
@@ -1350,8 +1326,7 @@ Expressions in GitHub Actions are written inside `${{ }}`. Inside these delimite
 In `if:` conditions specifically, the `${{ }}` wrapper is optional (GitHub evaluates the entire `if:` value as an expression). But including it is clearer and more explicit.
 
 ---
-
-### Common Operators
+#### Common Operators
 
 | Operator           | Syntax         | Example                                                              |
 | ------------------ | -------------- | -------------------------------------------------------------------- |
@@ -1365,8 +1340,7 @@ In `if:` conditions specifically, the `${{ }}` wrapper is optional (GitHub evalu
 | String ends with   | `endsWith()`   | `endsWith(github.ref, '-beta')`                                      |
 
 ---
-
-### Important Context Objects
+#### Important Context Objects
 
 **`github.ref`** — The full Git reference that triggered the workflow. For branch pushes, this is `refs/heads/<branch-name>`. For tag pushes, this is `refs/tags/<tag-name>`. Use this when you want to control execution based on which branch or tag was pushed.
 
@@ -1385,8 +1359,7 @@ In `if:` conditions specifically, the `${{ }}` wrapper is optional (GitHub evalu
 **`env`** — Environment variables set in the workflow.
 
 ---
-
-### Using `github.ref`
+#### Using `github.ref`
 
 ```yaml
 name: CI/CD Pipeline
@@ -1415,8 +1388,7 @@ jobs:
 ```
 
 ---
-
-### Using `github.event`
+#### Using `github.event`
 
 ```yaml
 name: Code Quality Checks
@@ -1446,8 +1418,7 @@ jobs:
 > **Note:** `github.event.head_commit.message` is only available on `push` events. On `pull_request` events, that field doesn't exist. When your workflow handles multiple event types, be careful about which event context fields you reference.
 
 ---
-
-### Status Check Functions
+#### Status Check Functions
 
 These functions check the outcome of **all previous steps** (or a specific previous step, using `steps.<id>.outcome`). They are used to run cleanup steps, failure notifications, or conditional follow-up actions.
 
@@ -1481,9 +1452,9 @@ steps:
 
 ---
 
-## 13) Logging and Annotations
+## Logging and Annotations
 
-### What Are Workflow Commands?
+#### What Are Workflow Commands?
 
 GitHub Actions runners watch for **special strings** printed to standard output during a step. When the runner detects one of these strings, it interprets it as a command rather than regular log output. These are called **workflow commands**.
 
@@ -1491,7 +1462,7 @@ Workflow commands let you communicate information from inside a running step bac
 
 ---
 
-### Why This Matters
+#### Why This Matters
 
 Standard log output just appears as a line of text in the step log. Workflow commands, on the other hand, create **UI annotations** — visible badges and highlighted messages in the workflow run summary page in the GitHub UI. This makes important warnings and errors much more visible to the person reviewing the workflow run.
 
@@ -1499,7 +1470,7 @@ Critically, `::warning::` and `::error::` annotations do **not** fail the step. 
 
 ---
 
-### Log Commands
+#### Log Commands
 
 ```bash
 echo "::warning::This function is deprecated and will be removed in v3.0"
@@ -1520,8 +1491,7 @@ echo "::error file=src/app.js,line=42,col=10::Null pointer exception"
 This creates a red annotation that links directly to line 42, column 10 of `src/app.js` in the GitHub UI code viewer.
 
 ---
-
-### Setting Environment Variables Between Steps
+#### Setting Environment Variables Between Steps
 
 Each step in a job runs in a separate process. Normal environment variables set in one step's shell are not visible to subsequent steps. To pass values between steps, you write to a special file that GitHub Actions reads between steps:
 
@@ -1534,8 +1504,7 @@ After this step completes, the next step in the same job can read `$MY_VARIABLE`
 This is the correct, official way to share state between steps within a job.
 
 ---
-
-### Masking Secrets from Logs
+#### Masking Secrets from Logs
 
 When you reference a secret with `${{ secrets.MY_SECRET }}`, GitHub automatically masks the value in log output, replacing it with `***`. But what about values you construct at runtime (not from `secrets` directly)?
 
@@ -1550,8 +1519,7 @@ After this line executes, any occurrence of `$COMPUTED_VALUE` in the step logs f
 **Important:** The mask only applies from the line where you call `::add-mask::` onwards. Any output that already happened before the mask command will not be redacted.
 
 ---
-
-### Full Logging Example
+#### Full Logging Example
 
 ```yaml
 on:
@@ -1592,19 +1560,19 @@ jobs:
 
 ---
 
-## 14) Secrets and Secure Data
+## Secrets and Secure Data
 
-### What Secrets Are?
+#### What Secrets Are?
 
  A secret is a secure and encrypted value stored in GitHub. It is commonly used to store sensitive information such as passwords, API keys, and access tokens. Workflows can access secrets during execution, but their actual values are hidden to protect security.
 
-### Why They Exist
+#### Why They Exist
 
 Without secrets, developers would be tempted to paste API keys, passwords, and tokens directly into workflow YAML files. These files are in the repository. Even in private repositories, this is a significant security risk — anyone with repository access can read the file.
 
 Secrets provide a secure, centralized store for sensitive values. The workflow file only references the secret by name (`${{ secrets.MY_SECRET }}`), not by value. Even someone who can read the workflow file cannot see the actual secret value.
 
-### What to Store as Secrets
+#### What to Store as Secrets
 
 - API keys and access tokens
 - Container registry credentials (Docker Hub, GHCR)
@@ -1613,7 +1581,7 @@ Secrets provide a secure, centralized store for sensitive values. The workflow f
 - SSH private keys
 - Signing certificates
 
-### Using Secrets
+#### Using Secrets
 
 ```yaml
 env:
@@ -1631,7 +1599,7 @@ steps:
       slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
 ```
 
-### Best Practices for Secrets
+#### Best Practices for Secrets
 
 - Never print a secret value with `echo` (GitHub will mask it, but it's still bad practice)
 - Rotate secrets regularly
@@ -1640,7 +1608,7 @@ steps:
 
 ---
 
-# 15) Understanding Variables, Contexts, Secrets, and Runtime Data Flow in GitHub Actions
+## Understanding Variables, Contexts, Secrets, and Runtime Data Flow in GitHub Actions
 
 One of the most confusing parts of GitHub Actions for beginners is understanding how data moves through a workflow.
 
@@ -1677,7 +1645,7 @@ As a result, developers often ask questions such as:
 To answer these questions, we first need to understand how GitHub Actions executes a workflow.
 
 ---
-#### How GitHub Actions Actually Works
+##### How GitHub Actions Actually Works
 
 Most people imagine GitHub Actions as a simple script runner.
 
@@ -1704,7 +1672,6 @@ GitHub Processes Runtime Files
 Understanding this execution flow explains nearly every variable-related behavior in GitHub Actions.
 
 ---
-
 #### The Three Execution Layers
 
 A useful mental model is to think of GitHub Actions as operating in three distinct layers.
@@ -2458,7 +2425,7 @@ Stored by GitHub:
 
 ---
 
-## 16) Conclusion 
+## Conclusion 
 
 - Always use `actions/checkout` as the first step whenever your job needs repository files.
 
