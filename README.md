@@ -12,7 +12,7 @@
 ## **Table of Contents**
 
 1. [Introduction to CI/CD and GitHub Actions](#Introduction-to-CI/CD-and-GitHub-Actions)
-2. [GitHub Platform Overview](#GitHub-Platform-Overview)
+2. [What GitHub Offers Beyond Code Hosting](#What-GitHub-Offers-Beyond-Code-Hosting)
 3. [Workflows and Actions](#Workflows-and-Actions)
 4. [Workflow Components and Execution](#Workflow-Components-and-Execution)
 5. [Your First Workflow](#Your-First-Workflow)
