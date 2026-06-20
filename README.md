@@ -25,7 +25,7 @@
 12. [Conditionals and Expressions](#Conditionals-and-Expressions)
 13. [Logging and Annotations](#Logging-and-Annotations)
 14. [Secrets and Secure Data](#Secrets-and-Secure-Data)
-15. [Understanding Variables, Contexts, Secrets, and Runtime Data Flow in GitHub Actions](#Understanding-Variables,-Contexts,-Secrets,-and-Runtime-Data-Flow-in-GitHub-Actions)
+15. [Understanding Variables, Contexts, Secrets, and Runtime Data Flow in GitHub Actions](#understanding-variables-contexts-secrets-and-runtime-data-flow-in-github-actions)
 16. [Conclusion](#Conclusion) 
 
 ---
