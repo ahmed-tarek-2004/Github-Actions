@@ -9,23 +9,23 @@
 
 ---
 
-## Table of Contents
+## **Table of Contents**
 
-1. [Introduction to CI/CD and GitHub Actions](#Introduction to CI/CD and GitHub Actions)
-2. [GitHub Platform Overview](#GitHub Platform Overview)
-3. [Workflows and Actions](#Workflows and Actions)
-4. [Workflow Components and Execution](#Workflow Components and Execution)
-5. [Your First Workflow](#Your First Workflow)
-6. [Pricing and Runners](#Pricing and Runners)
-7. [GitHub Marketplace](#GitHub Marketplace)
-8. [YAML Basics for GitHub Actions](#YAML Basics for GitHub Actions)
-9. [Types of Workflow Triggers](#Types of Workflow Triggers)
-10. [Jobs and Steps in Detail](#Jobs and Steps in Detail)
-11. [Matrix Strategy](#Matrix Strategy)
-12. [Conditionals and Expressions](#Conditionals and Expressions)
-13. [Logging and Annotations](#Logging and Annotations)
-14. [Secrets and Secure Data](#Secrets and Secure Data)
-15. [Understanding Variables, Contexts, Secrets, and Runtime Data Flow in GitHub Actions](#Understanding Variables, Contexts, Secrets, and Runtime Data Flow in GitHub Actions)
+1. [Introduction to CI/CD and GitHub Actions](#Introduction-to-CI/CD-and-GitHub-Actions)
+2. [GitHub Platform Overview](#GitHub-Platform-Overview)
+3. [Workflows and Actions](#Workflows-and-Actions)
+4. [Workflow Components and Execution](#Workflow-Components-and-Execution)
+5. [Your First Workflow](#Your-First-Workflow)
+6. [Pricing and Runners](#Pricing-and-Runners)
+7. [GitHub Marketplace](#GitHub-Marketplace)
+8. [YAML Basics for GitHub Actions](#YAML-Basics-for-GitHub-Actions)
+9. [Types of Workflow Triggers](#Types-of-Workflow-Triggers)
+10. [Jobs and Steps in Detail](#Jobs-and-Steps-in-Detail)
+11. [Matrix Strategy](#Matrix-Strategy)
+12. [Conditionals and Expressions](#Conditionals-and-Expressions)
+13. [Logging and Annotations](#Logging-and-Annotations)
+14. [Secrets and Secure Data](#Secrets-and-Secure-Data)
+15. [Understanding Variables, Contexts, Secrets, and Runtime Data Flow in GitHub Actions](#Understanding-Variables,-Contexts,-Secrets,-and-Runtime-Data-Flow-in-GitHub-Actions)
 16. [Conclusion](#Conclusion) 
 
 ---
